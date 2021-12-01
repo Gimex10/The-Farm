@@ -1,0 +1,57 @@
+{% extends 'accounts/main.html' %} {% load static %} {% block content %}
+<br />
+{% load crispy_forms_tags %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card card-body">
+      <a class="btn btn-warning btn-block" href="{% url 'home' %}">
+        &#8592; Back to Home</a
+      >
+      <hr />
+      <h3 style="text-align: center">Give feedback</h3>
+      <hr />
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="card card-body">
+      <form action="" method="POST">
+        {% csrf_token %} {{feedbacks_form|crispy}}
+        <hr />
+        <div class="row">
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fa fas-database"></i>Submit Feedback
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-body">
+      <p></p>
+      <table class="table table-sm">
+        <tr>
+          <th>Recent Feedback</th>
+          <th></th>
+        </tr>
+        {% for feedback in user_feedbacks %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{feedback.feedback_info}}</td>
+          <td>
+            <a
+              class="btn btn-sm btn-danger"
+              href="{% url 'delete_feedback' feedback.id %}"
+              >Delete</a
+            >
+          </td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

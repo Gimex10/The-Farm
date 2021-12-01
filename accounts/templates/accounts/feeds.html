@@ -1,0 +1,33 @@
+{% extends 'accounts/main.html' %} {% block content %}
+
+<style>
+  .btn-warning {
+    width: 125px;
+  }
+</style>
+<div class="col-md-9">
+  <br />
+  <h5>Feeds</h5>
+  <hr />
+  <div class="card card-body">
+    <table class="table table-sm">
+      <tr>
+        <th>Feed Name</th>
+        <th>Feed Type</th>
+        <th>Feed Quantity</th>
+        <th>Date Bought</th>
+      </tr>
+
+      {% for feed in feeds %}
+      <tr>
+        <td>{{feed.feed_name}}</td>
+        <td>{{feed.feed_type}}</td>
+        <td>{{feed.feed_quantity}}</td>
+        <td>{{feed.date_feed_bought}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <a class="btn btn-warning" href="{% url 'home'  %}">Back</a>
+  </div>
+</div>
+{% endblock%}

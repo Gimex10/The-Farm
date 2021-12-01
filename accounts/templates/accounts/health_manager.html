@@ -1,0 +1,110 @@
+{% extends 'accounts/main.html' %} {% block content %}
+<br />
+<style>
+  .row {
+    display: flex;
+    justify-content: center;
+  }
+</style>
+<div class="row">
+  <div class="card-body">
+    <h2>Health Management</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-body">
+      <h5>Medicine</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date Bought</th>
+          <th>Expiry Date</th>
+        </tr>
+
+        {% for i in medicine %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{i.medicine_name}}</td>
+          <td>{{i.medicine_description}}</td>
+          <td>{{i.date_med_bought}}</td>
+          <td>{{i.expiry_date}}</td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+      <a class="btn btn-info" href="{% url 'add_medicine' %}" width="12px"
+        >Add New Medicine</a
+      >
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-body">
+      <h5>Vaccinations</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Flock</th>
+          <th>Medication</th>
+          <th>Date</th>
+          <th>Description</th>
+        </tr>
+
+        {% for vaccination in vaccinations %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{vaccination.flock}}</td>
+          <td>{{vaccination.medicine}}</td>
+          <td>{{vaccination.vaccination_date}}</td>
+          <td>{{vaccination.vaccination_description}}</td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+
+      <a class="btn btn-info" href="{% url 'add_vaccination' %}" width="12px"
+        >New Vaccination</a
+      >
+      <br />
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <br />
+      <h5>Mortality</h5>
+    </div>
+    <div class="card card-body">
+      <p id="add-flock-title">Record Mortality</p>
+      <p id="add-flock-content">Mortalities per brooder are recorded daily</p>
+      <a class="btn btn-info" href="{% url 'add_mortality' %}" width="12px"
+        >Record Mortality</a
+      >
+    </div>
+  </div>
+  <div class="col-md">
+    <div class="card card-body">
+      <br />
+      <h5>Reports</h5>
+    </div>
+    <div class="card card-body">
+      <p id="add-flock-title">Reports about health status</p>
+      <p id="add-flock-content">Mortalities and vaccinations are reported on</p>
+      <a class="btn btn-info" href="{% url 'reports' %}" width="12px"
+        >Reports</a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock %}

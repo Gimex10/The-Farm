@@ -1,0 +1,42 @@
+{% extends 'accounts/main.html' %} {% load static %} {% block content %}
+<br />
+{% load crispy_forms_tags %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card card-body">
+      <a class="btn btn-warning" href="{% url 'brooder_manager' %}">
+        &#8592; Back</a
+      >
+      <hr />
+      <h3 style="text-align: center">Feed Usage</h3>
+      <hr />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-body">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <hr />
+        <div class="row">
+          <div class="col-md-4">
+            {{add_feedusage_form.brooder|as_crispy_field}}
+          </div>
+          <div class="col-md-8">
+            {{add_feedusage_form.flock|as_crispy_field}}
+          </div>
+        </div>
+        {{add_feedusage_form.feed|as_crispy_field}}
+        {{add_feedusage_form.feed_quantity_used|as_crispy_field}}
+        <hr />
+        <div class="row">
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fas-database"></i>Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

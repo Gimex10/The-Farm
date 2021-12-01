@@ -1,0 +1,33 @@
+{% extends 'accounts/main.html' %} {% block content %}
+
+<style>
+  .btn-warning {
+    width: 125px;
+  }
+</style>
+<div class="col-md-9">
+  <br />
+  <h5>Medicine</h5>
+  <hr />
+  <div class="card card-body">
+    <table class="table table-sm">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Date Bought</th>
+        <th>Expiry Date</th>
+      </tr>
+
+      {% for med in medicine %}
+      <tr>
+        <td>{{med.medicine_name}}</td>
+        <td>{{med.medicine_description}}</td>
+        <td>{{med.date_med_bought}}</td>
+        <td>{{med.expiry_date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <a class="btn btn-warning" href="{% url 'home'  %}">Back</a>
+  </div>
+</div>
+{% endblock%}

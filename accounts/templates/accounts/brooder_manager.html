@@ -1,0 +1,92 @@
+{% extends 'accounts/main.html' %} {% block content %}
+<div class="row">
+  <div class="card-body">
+    <h2>Brooder Management</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Feeds</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Feed Name</th>
+          <th>Feed Type</th>
+          <th>Date Bought</th>
+          <th>Quantity</th>
+        </tr>
+
+        {% for i in feeds %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{i.feed_name}}</td>
+          <td>{{i.feeds_type}}</td>
+          <td>{{i.date_feed_bought}}</td>
+          <td>{{i.feed_quantity}}</td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+      <a class="btn btn-info" href="{% url 'add_feed' %}" width="12px"
+        >Add New Feed</a
+      >
+    </div>
+  </div>
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Feeds Usage</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Brooder</th>
+          <th>Flock</th>
+          <th>Feed Type</th>
+          <th>Quantity Used</th>
+          <th>Date Used</th>
+        </tr>
+
+        {% for usage in feedsusage %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{usage.brooder}}</td>
+          <td>{{usage.flock}}</td>
+          <td>{{usage.feeds_type}}</td>
+          <td>{{usage.feed_quantity_used}}</td>
+          <td>{{usage.feed_usage_date}}</td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+
+      <a class="btn btn-info" href="{% url 'add_feed_usage' %}" width="12px"
+        >New Feed Usage</a
+      >
+      <br />
+      <br />
+      <br />
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <br />
+      <h5>Brooder reports</h5>
+    </div>
+    <div class="card card-body">
+      <p id="add-flock-title">Reports on feeds and feed usage</p>
+      <p id="add-flock-content">Feeds used per brooder</p>
+      <p id="add-flock-content">Reports on cleaning cycle</p>
+      <a class="btn btn-info" href="{% url 'reports' %}" width="12px"
+        >View feeds reports</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

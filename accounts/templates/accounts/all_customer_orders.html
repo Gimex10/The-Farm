@@ -1,0 +1,178 @@
+{% extends 'accounts/main.html' %} {% block content %}
+
+<style>
+  .btn-warning {
+    max-width: 120px;
+    align-items: center;
+    justify-content: center;
+  }
+  .back-btn {
+    justify-content: right;
+  }
+  .col-md-1 {
+    display: flex;
+    place-items: center;
+  }
+</style>
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">{% include 'accounts/status.html' %}</div>
+  </div>
+</div>
+
+<hr />
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Pending Orders:</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Date Ordered</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Remove</th>
+        </tr>
+
+        {% for order in pending_list %}
+        <tr>
+          <td>{{order.customer.name}}</td>
+          <td>{{order.product}}</td>
+          <td>{{order.date_created}}</td>
+          <td>{{order.order_quantity}}</td>
+          <td>{{order.status}}</td>
+          <td>
+            <a
+              class="btn btn-sm btn-info"
+              href="{% url 'update_order' order.id %}"
+              >Update</a
+            >
+          </td>
+          <td>
+            <a
+              class="btn btn-sm btn-danger"
+              href="{% url 'delete_order' order.id %}"
+              >Delete</a
+            >
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+    <br />
+    <hr />
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Out for Delivery:</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Date Ordered</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Remove</th>
+        </tr>
+
+        {% for order in outfordelivery_list %}
+        <tr>
+          <td>{{order.customer.name}}</td>
+          <td>{{order.product}}</td>
+          <td>{{order.date_created}}</td>
+          <td>{{order.order_quantity}}</td>
+          <td>{{order.status}}</td>
+          <td>
+            <a
+              class="btn btn-sm btn-info"
+              href="{% url 'update_order' order.id %}"
+              >Update</a
+            >
+          </td>
+          <td>
+            <a
+              class="btn btn-sm btn-danger"
+              href="{% url 'delete_order' order.id %}"
+              >Delete</a
+            >
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+    <br />
+    <hr />
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Delivered Orders:</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Date Ordered</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Remove</th>
+        </tr>
+
+        {% for order in delivered_list %}
+        <tr>
+          <td>{{order.customer.name}}</td>
+          <td>{{order.product}}</td>
+          <td>{{order.date_created}}</td>
+          <td>{{order.order_quantity}}</td>
+          <td>{{order.status}}</td>
+          <td>
+            <a
+              class="btn btn-sm btn-info"
+              href="{% url 'update_order' order.id %}"
+              >Update</a
+            >
+          </td>
+          <td>
+            <a
+              class="btn btn-sm btn-danger"
+              href="{% url 'delete_order' order.id %}"
+              >Delete</a
+            >
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+    <br />
+    <hr />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-1">
+    <br />
+    <a class="btn btn-warning btn-block" href="{% url 'home' %}">
+      &#8592; Back
+    </a>
+  </div>
+</div>
+
+{% endblock content %}

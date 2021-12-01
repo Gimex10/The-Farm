@@ -1,0 +1,33 @@
+{% extends 'accounts/main.html' %} {% block content %}
+
+<style>
+  .btn-warning {
+    width: 125px;
+  }
+</style>
+<div class="col-md-9">
+  <br />
+  <h5>Feeds Usage</h5>
+  <hr />
+  <div class="card card-body">
+    <table class="table table-sm">
+      <tr>
+        <th>Brooder</th>
+        <th>Flock</th>
+        <th>Feed Quantity</th>
+        <th>Date Used</th>
+      </tr>
+
+      {% for feedusage in feedsusages %}
+      <tr>
+        <td>{{feedusage.brooder}}</td>
+        <td>{{feedusage.flock}}</td>
+        <td>{{feedusage.feed_quantity_used}}</td>
+        <td>{{feedusage.feed_usage_date}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <a class="btn btn-warning" href="{% url 'home'  %}">Back</a>
+  </div>
+</div>
+{% endblock%}

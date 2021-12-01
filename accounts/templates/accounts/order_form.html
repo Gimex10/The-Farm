@@ -1,0 +1,30 @@
+{% extends 'accounts/main.html' %} {% load static %} {% block content %}
+<br />
+{% load crispy_forms_tags %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card card-body">
+      <hr />
+      <a class="btn btn-warning" href="/">Back to home</a>
+      <hr />
+      <h3>Customer order</h3>
+      <hr />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-body">
+      <form action="" method="POST">
+        {% csrf_token %} {{form|crispy}}
+        <hr />
+        <div class="row">
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fas-database"></i>Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

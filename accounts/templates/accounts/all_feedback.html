@@ -1,0 +1,31 @@
+{% extends 'accounts/main.html' %} {% block content %}
+<br />
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5>Feedback:</h5>
+    </div>
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Customer</th>
+          <th>Feedback</th>
+          <th>Date</th>
+        </tr>
+
+        {% for feedback in feedbacks %}
+        <tr>
+          <td>{{feedback.customer}}</td>
+          <td>{{feedback.feedback_info}}</td>
+          <td>{{feedback.feedback_date}}</td>
+        </tr>
+
+        {% endfor %}
+      </table>
+      <div class="back-btn">
+        <a class="btn btn-warning" href="{% url 'home' %}"> &#8592; Back </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

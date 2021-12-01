@@ -1,0 +1,36 @@
+{% extends 'accounts/main.html' %} {% load static %} {% block content %}
+
+<br />
+<br />
+<div class="row">
+  <div class="col-md-3">
+    <div class="card card-body">
+      <hr />
+      <h3 style="text-align: center">Mortality</h3>
+      <hr />
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-body">
+      <table class="table">
+        <tr>
+          <th>Brooder</th>
+          <th>Flock</th>
+          <th>Count</th>
+          <th>Date</th>
+        </tr>
+
+        {% for mortality in mortalities %}
+        <tr>
+          <td>{{mortality.brooder}}</td>
+          <td>{{mortality.flock}}</td>
+          <td>{{mortality.mortality_count}}</td>
+          <td>{{mortality.mortality_date}}</td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
