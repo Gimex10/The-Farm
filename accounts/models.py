@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 import datetime
 from django.core.exceptions import ValidationError
+from annoying.fields import AutoOneToOneField
 
 # Create your models here.
 
@@ -16,7 +17,6 @@ class Customer(models.Model):
         User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=15, null=True)
-    email = models.CharField(max_length=45, null=True)
     profile_pic = models.ImageField(
         default='profile1.png', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
@@ -67,15 +67,16 @@ class Order(models.Model):
     )
 
     customer = models.ForeignKey(
-        Customer, null=True, on_delete=models.SET_NULL)
+        Customer, null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(
-        max_length=100, null=True, choices=STATUS, default='Not tended')
+        max_length=100, null=True, choices=STATUS, default='Pending')
     note = models.CharField(max_length=200, null=True, blank=True)
     order_quantity = models.FloatField(
         null=True, validators=[MinValueValidator(1.0)])
-    paid = models.BooleanField(default=False, null=True)
+    is_paid = models.BooleanField(default=False, null=True)
+    is_accepted = models.BooleanField(default=False, null=True)
     is_delivered = models.BooleanField(default=False, null=True)
     delivery_date = models.DateField(null=True, blank=True)
 
@@ -189,11 +190,17 @@ class FeedUsage(models.Model):
 
 
 class Sale(models.Model):
-    order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE)
-    order_cost = models.FloatField(null=True, validators=[
+    BILLING_STATUS = (
+        ('Not Billed', 'Not Billed'),
+        ('Billed', 'Billed'),
+    )
+    order = AutoOneToOneField(Order, primary_key=True,
+                              on_delete=models.CASCADE)
+    order_total_cost = models.FloatField(null=True, validators=[
         MinValueValidator(1.0)])
     sale_date = models.DateField(auto_now_add=True, null=True)
-    billing_status = models.CharField(max_length=100, null=True)
+    billing_status = models.CharField(
+        max_length=100, null=True, choices=BILLING_STATUS)
 
     def __str__(self):
         return self.order.product.name
@@ -210,7 +217,7 @@ class Vaccination(models.Model):
         return self.flock.flock_breedtype
 
 
-# class Inventory():
+# class Payments():
     # inventory = models.CharField(max_length=200, null=True)
 
 # class Location():

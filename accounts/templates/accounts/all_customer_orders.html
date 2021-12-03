@@ -1,29 +1,23 @@
-{% extends 'accounts/main.html' %} {% block content %}
+{% extends 'accounts/home.html' %} {% block content %}
 
-<style>
-  .btn-warning {
-    max-width: 120px;
-    align-items: center;
-    justify-content: center;
-  }
-  .back-btn {
-    justify-content: right;
-  }
-  .col-md-1 {
-    display: flex;
-    place-items: center;
-  }
-</style>
 <br />
 <div class="row">
   <div class="col-md">
+    <div class="card card-body">
+      <h6>STATUS:</h6>
+    </div>
     <div class="card card-body">{% include 'accounts/status.html' %}</div>
   </div>
 </div>
+<br />
+<div class="row" style="justify-content: flex-start">
+  <a class="btn btn-outline-info" href="#pending">Pending</a>
+  <a class="btn btn-outline-info" href="#out-for-delivery">Out for delivery</a>
+  <a class="btn btn-outline-info" href="#delivered">Delivered</a>
+</div>
 
 <hr />
-<br />
-<div class="row">
+<div class="row" id="pending">
   <div class="col-md">
     <div class="card card-body">
       <h5>Pending Orders:</h5>
@@ -71,7 +65,7 @@
   </div>
 </div>
 <br />
-<div class="row">
+<div class="row" id="out-for-delivery">
   <div class="col-md">
     <div class="card card-body">
       <h5>Out for Delivery:</h5>
@@ -119,7 +113,7 @@
   </div>
 </div>
 <br />
-<div class="row">
+<div class="row" id="delivered">
   <div class="col-md">
     <div class="card card-body">
       <h5>Delivered Orders:</h5>
@@ -167,8 +161,10 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-1">
-    <br />
+  <div
+    class="col-md-3"
+    style="justify-content: right; align-items: center; display: flex"
+  >
     <a class="btn btn-warning btn-block" href="{% url 'home' %}">
       &#8592; Back
     </a>

@@ -18,13 +18,12 @@ urlpatterns = [
     path('account/', views.accountSettings, name="account"),
 
     path('products/', views.products, name="products"),
+    path('cust_products/', views.customerProducts, name="cust_products"),
 
     path('all_customers/', views.allCustomers, name="all_customers"),
     path('all_orders/', views.allOrders, name="all_orders"),
     path('all_customer_orders/', views.allCustomerOrders,
          name="all_customer_orders"),
-    path('all_feedback/', views.allFeedback,
-         name="all_feedback"),
 
 
     path('customer/<str:pk_test>/', views.customer, name="customer"),
@@ -33,6 +32,9 @@ urlpatterns = [
          views.giveFeedback, name="give_feedback"),
     path('delete_feedback/<str:pk>/',
          views.deleteFeedback, name="delete_feedback"),
+    path('all_feedback/', views.allFeedback, name="all_feedback"),
+    path('feedback/', views.Feedbacks, name="feedback"),
+
 
     path('vaccinations/', views.vaccinations, name="vaccinations"),
 
@@ -49,6 +51,7 @@ urlpatterns = [
     path('brooder/', views.brooder, name="brooder"),
 
     path('sales/<str:pk>/', views.sales, name="sales"),
+    path('payment/<int:id>/', views.payment, name="payment"),
 
     path('mortality/', views.mortality, name="mortality"),
 
@@ -73,6 +76,8 @@ urlpatterns = [
 
     path('delete_customer/<str:pk>/',
          views.delete_customer, name="delete_customer"),
+    path('cancel_order/<int:id>/',
+         views.cancelOrder, name="cancel_order"),
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name="accounts/password_reset.html"),
          name="reset_password"),

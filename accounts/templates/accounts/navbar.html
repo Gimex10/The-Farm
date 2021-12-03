@@ -28,7 +28,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'home' %}">Kukumilele</a>
       </li>
-      {% if request.user.is_staff %}
+      <!-- {% if request.user.is_staff %}
       <li class="nav-item active">
         <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
       </li>
@@ -37,14 +37,14 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'flock' %}">Flock</a>
-      </li>
+      </li> -->
       <!--<li class="nav-item">
         <a class="nav-link" href="{% url 'brooder' %}">Brooder</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'calender' %}">Calender</a>
       </li> -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="{% url 'health_manager' %}">Health</a>
       </li>
       <li class="nav-item">
@@ -57,10 +57,10 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account' %}">Settings</a>
       </li>
-      {% endif %}
+      {% endif %} -->
     </ul>
   </div>
-  <span class="hello-msg">Hello, {{request.user}}</span>
+  <span class="hello-msg">Hello,<i class="username"> {{request.user}}</i></span>
   <span class="hello-msg"
     ><a class="hello-msg" href="{% url 'logout' %}">Logout</a></span
   >

@@ -1,0 +1,51 @@
+{% extends 'accounts/home.html' %} {% load static %} {% block content %}
+<br />
+<div class="row">
+  <div class="col-md-8">
+    <div class="card card-body">
+      <div class="feedback_content">
+        <h4>Feedback</h4>
+        <hr />
+        <p>We welcome your feedback on our products and services</p>
+        <a
+          class="btn btn-primary btn-md btn-flex"
+          id="reserve-btn"
+          href="{% url 'give_feedback' customer.id %}"
+          >Give Feedback</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-8">
+    <div class="card card-body">
+      <p></p>
+      <table class="table table-hover">
+        <tr>
+          <th>Recent Feedback</th>
+          <th></th>
+        </tr>
+        {% for feedback in user_feedbacks %}
+        <tr>
+          {% if forloop.revcounter <= 5 %}
+          <td>{{feedback.feedback_info}}</td>
+          <td>
+            <a
+              class="btn btn-sm btn-danger"
+              href="{% url 'delete_feedback' feedback.id %}"
+              >Delete</a
+            >
+          </td>
+          {% endif %}
+        </tr>
+
+        {% endfor %}
+      </table>
+      <table class="table table-sm"></table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

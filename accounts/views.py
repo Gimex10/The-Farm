@@ -1,3 +1,4 @@
+from .__utils import *
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
@@ -9,22 +10,15 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
+from django.core.validators import EmailValidator
 
 from .models import *
 from .forms import *  # OrderForm, CreateUserForm, CustomerForm, OrderCustomerForm
-from .filters import OrderFilter
+from .filters import OrderFilter, CustomerFilter
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
 # Defines the register userpage view
 # Funtion to close flock
-
-
-def close_flock(id):
-    flock = Flock.objects.get(id=id)
-    if flock.flock_quantity == 0:
-        flock.is_closed = True
-        flock.save()
-        print('is closed updated')
 
 
 @unauthenticated_user
@@ -34,15 +28,61 @@ def registerPage(request):
 
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
+        # print(request.POST)
+        # print(request.POST['first_name'])
+        # print(request.POST['last_name'])
+        # print(request.POST['email'])
+        # print(request.POST)
 
-            messages.success(request, 'Account was created for ' + username)
+        if request.POST['first_name']:
+            if validate_name(request.POST['first_name']):
+                if request.POST['last_name']:
+                    if validate_name(request.POST['last_name']):
+                        if request.POST['email']:
 
-            return redirect('login')
+                            if form.is_valid():
+                                print(request.POST)
+                                print(6)
+                                print(6)
+                                print('Saved')
+                                user = form.save()
+                                f = user.first_name
+                                l = user.last_name
+                                e = user.email
+                                username = form.cleaned_data.get('username')
+                                first = form.cleaned_data.get('first_name')
+                                last = form.cleaned_data.get('last_name')
+                                email = form.cleaned_data.get('email')
 
-    context = {'form': form}
+                                messages.success(
+                                    request, 'Account was created for ' + username)
+
+                                return redirect('login')
+                            else:
+                                print('Form not valid')
+                                messages.info(
+                                    request, 'Form is not valid, username already exists')
+
+                        else:
+                            print('No email')
+                            messages.info(request, 'Please provide your email')
+
+                    else:
+                        print('Last name not valid')
+                        messages.info(
+                            request, 'Please provide a valid last name')
+
+                else:
+                    print('No last name')
+                    messages.info(request, 'Please provide your last name')
+            else:
+                print('First name not valid')
+                messages.info(request, 'Please provide a valid first name')
+        else:
+            print('No first name')
+            messages.info(request, 'Please provide your first name')
+
+    context = {'form': form, }
     return render(request, 'accounts/register.html', context)
 
 # Defines the login view
@@ -85,10 +125,10 @@ def home(request):
 
     feedbacks = Feedback.objects.all()
 
-    for customer in customers:
-        print(customer.name)
-        print(customer.user)
-        print(customer.id)
+    # for customer in customers:
+    #     print(customer.name)
+    #     print(customer.user)
+    #     print(customer.id)
 
     # for feedback in feedbacks:
     # print(feedback)
@@ -195,19 +235,52 @@ def products(request):
     context = {'products': products, 'broilers_quantity': broilers_quantity,
                'layers_quantity': layers_quantity, }
     return render(request, 'accounts/products.html', context)
+
+
+@ login_required(login_url='login')
+@ allowed_users(allowed_roles=['customer'])
+def customerProducts(request):
+    products = Product.objects.all()
+    flock = Flock.objects.all()
+
+    active_flock = []
+    broilers_count = []
+    layers_count = []
+    results = []
+    for i in flock:
+        results.append(i)
+        active_flock.append(i.flock_quantity)
+    for n in results:
+        if n.flock_breedtype == 'Broiler':
+            broilers_count.append(n.flock_quantity)
+        else:
+            layers_count.append(n.flock_quantity)
+
+    broilers_quantity = sum(broilers_count)
+    layers_quantity = sum(layers_count)
+
+    context = {'products': products, 'broilers_quantity': broilers_quantity,
+               'layers_quantity': layers_quantity, }
+    return render(request, 'accounts/customer_products.html', context)
+
+
 # Defines the all customers view
 
 
 @ login_required(login_url='login')
 @ allowed_users(allowed_roles=['admin'])
 def allCustomers(request):
+
     customers = Customer.objects.all()
+    all_customers_count = customers.count()
+    # for i in customers:
+    #     print(i.id)
+    #     print(i.name)
+    myFilter = CustomerFilter(request.GET, queryset=customers)
+    customers = myFilter.qs
 
-    for i in customers:
-        print(i.id)
-        print(i.name)
-
-    context = {'customers': customers}
+    context = {'customers': customers,
+               'all_customers_count': all_customers_count, 'myFilter': myFilter, }
     return render(request, 'accounts/all_customers.html', context)
 # Defines the all orders view
 
@@ -216,8 +289,15 @@ def allCustomers(request):
 @ allowed_users(allowed_roles=['admin'])
 def allOrders(request):
     orders = Order.objects.all()
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
 
-    context = {'orders': orders}
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+
+    context = {'orders': orders, 'total_orders': total_orders, 'delivered': delivered,
+               'pending': pending, 'myFilter': myFilter, }
     return render(request, 'accounts/all_orders.html', context)
 # Defines the all customer orders view
 
@@ -232,7 +312,7 @@ def allCustomerOrders(request):
     pending_list = []
     out_for_delivery_list = []
     delivered_list = []
-    not_tended_list = []
+
     for n in orders:
         if n.status == 'Pending':
             pending_list.append(n)
@@ -240,13 +320,10 @@ def allCustomerOrders(request):
             out_for_delivery_list.append(n)
         if n.status == 'Delivered':
             delivered_list.append(n)
-        if n.status == 'Not tended':
-            not_tended_list.append(n)
 
-    print(pending_list)
-    print(out_for_delivery_list)
-    print(delivered_list)
-    print(not_tended_list)
+    # print(pending_list)
+    # print(out_for_delivery_list)
+    # print(delivered_list)
 
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
@@ -255,7 +332,7 @@ def allCustomerOrders(request):
     context = {'orders': orders, 'total_orders': total_orders,
                'delivered': delivered, 'pending': pending,
                'pending_list': pending_list, 'outfordelivery_list': out_for_delivery_list,
-               'delivered_list': delivered_list, 'not_tended_list': not_tended_list, }
+               'delivered_list': delivered_list, }
     return render(request, 'accounts/all_customer_orders.html', context)
 
 # Defines the admin's customer view
@@ -312,19 +389,63 @@ def createOrder(request, pk):
 @ allowed_users(allowed_roles=['customer'])
 def createCustomerOrder(request, pk):
     customer = Customer.objects.get(id=pk)
+    # customer_name = customer.name
+    # print(customer_name)
     # customer = request.user.customer
 
-    order = customer.order_set.all()
+    # order = customer.order_set.all()
 
     form = OrderCustomerForm(initial={'customer': customer})
 
     if request.method == 'POST':
         form = OrderCustomerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/user/')
 
-    context = {'form': form, 'customer': customer, 'order': order}
+        total_flock = get_total_flock()
+        broilers_total = int(total_flock['broilers_quantity'])
+        layers_total = int(total_flock['layers_quantity'])
+
+        # print(request.POST)
+        # print(type(broilers_total))
+        # print(type(layers_total))
+        # print(layers_total)
+
+        product_id = int(request.POST['product'])
+        order_count = int(request.POST['order_quantity'])
+        # print('product id:', product_id, type(product_id))
+        # print('order count:', order_count, type(order_count))
+
+        product = Product.objects.get(id=product_id)
+        # print('Printing product', product, type(product))
+        print('print 1', request.POST)
+        # print('printing product', product.name)
+
+        if product.name == 'Broiler':
+
+            # print('product id:', product_id, type(product_id))
+            # print('order count:', order_count, type(order_count))
+
+            if order_count <= broilers_total:
+                if form.is_valid():
+                    s = form.save()
+                    # print(s.id)
+                    # print('Saved Broilers')
+                    return redirect(f'/sales/{s.id}/')
+            else:
+                print('Insufficient Broilers')
+        else:
+            # print('product id:', product_id, type(product_id))
+            # print('order count:', order_count, type(order_count))
+            if order_count <= layers_total:
+                if form.is_valid():
+                    v = form.save()
+                    # print('Saved Layers')
+                    return redirect(f'/sales/{v.id}/')
+            else:
+                print('Insufficient Layers')
+
+    # print(request.POST)
+
+    context = {'form': form, 'customer': customer}
 
     return render(request, 'accounts/customer_order_form.html', context)
 
@@ -385,7 +506,7 @@ def deleteFeedback(request, pk):
     feedback = Feedback.objects.get(id=pk)
     if request.method == "POST":
         feedback.delete()
-        return redirect('/')
+        return redirect('/feedback/')
     context = {'feedback': feedback}
     return render(request, 'accounts/delete_feedback.html', context)
 
@@ -407,7 +528,7 @@ def giveFeedback(request, pk):
         feedbacks_form = GiveFeedbackForm(request.POST)
         if feedbacks_form.is_valid():
             feedbacks_form.save()
-            return redirect('/user/')
+            return redirect('/feedback/')
 
     context = {'feedbacks_form': feedbacks_form,
                'customer': customer, 'user_feedbacks': user_feedbacks, }
@@ -488,12 +609,46 @@ def brooder(request):
 
 
 @ login_required(login_url='login')
-@ allowed_users(allowed_roles=['admin'])
+@ allowed_users(allowed_roles=['admin', 'customer'])
 def sales(request, pk):
+    id_string = str(request)
+    id = 'id:', id_string.split('/')[-2]
+    # print('id:', id_string)
+    # print(id[1])
+    # print(type(id[1]))
 
-    sales = Sale.objects.all()
+    id_int = int(id[1])
 
-    context = {'sales': sales}
+    # print(id_int)
+    # print(type(id_int))
+
+    order = Order.objects.get(id=id_int)
+    order.sale
+
+    # sale = Sale.objects.get(id=id_int)
+    # print(sale.order_total_cost)
+
+    # print('order', order)
+    # print(order.sale)
+    # print(type(order))
+    # print(order.customer)
+    # print(order.product)
+    # print(order.product.price)
+    # print(order.product.price)
+    # print(order.status)
+    # print(order.order_quantity)
+    # print(order.is_accepted)
+    # print(order.is_paid)
+    # print(order.is_delivered)
+    # print(order.delivery_date)
+
+    all_sales = Sale.objects.all()
+    # print(all_sales)
+
+    context = {'id_int': id_int, 'all_sales': all_sales, 'customer': order.customer, 'product': order.product,
+               'price': int(order.product.price), 'status': order.status, 'quantity': int(order.order_quantity),
+               'accepted': order.is_accepted, 'paid': order.is_paid, 'delivered': order.is_delivered,
+               'delivery_date': order.delivery_date, 'total_cost': order.product.price * order.order_quantity}
 
     return render(request, 'accounts/sales.html', context)
 
@@ -830,11 +985,62 @@ def addMortality(request):
     return render(request, 'accounts/add_mortality.html', context)
 
 
+def cancelOrder(request, id):
+
+    # print(id)
+    # print(order.sale)
+    # print(order.order_quantity)
+    # print(order)
+
+    order = Order.objects.get(id=id)
+    v = order.delete()
+    print(v)
+
+    context = {}
+    # return render(request, 'accounts/cancel_order.html', context)
+    return redirect('/user/')
+
+
 def index(request):
 
     context = {}
 
     return render(request, 'accounts/index.html', context)
+
+
+def payment(request, id):
+
+    id_string = str(request)
+    id = 'id:', id_string.split('/')[-2]
+    id_int = int(id[1])
+
+    order = Order.objects.get(id=id_int)
+
+    user = order.customer.user
+    user_email = order.customer.user.email
+    user_phone = order.customer.phone
+    user_firstname = order.customer.user.first_name
+    user_lastname = order.customer.user.last_name
+
+
+    context = {'id_int': id_int, 'customer': order.customer, 'product': order.product,
+               'price': int(order.product.price), 'status': order.status, 'quantity': int(order.order_quantity),
+               'accepted': order.is_accepted, 'paid': order.is_paid, 'delivered': order.is_delivered,
+               'delivery_date': order.delivery_date, 'total_cost': order.product.price * order.order_quantity,
+               'order':order, 'user':user ,'user_email': user_email,'user_phone':user_phone,
+               'user_firstname':user_firstname, 'user_lastname':user_lastname,}
+
+    return render(request, 'accounts/payment.html', context)
+
+
+def Feedbacks(request):
+    customer = request.user.customer
+    print(customer)
+    feedbacks = Feedback.objects.all()
+
+    user_feedbacks = feedbacks.filter(customer=customer)
+    context = {'customer': customer, 'user_feedbacks': user_feedbacks}
+    return render(request, 'accounts/feedback.html', context)
 
 
 def update():

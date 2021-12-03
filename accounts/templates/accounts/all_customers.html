@@ -1,46 +1,67 @@
 {% extends 'accounts/main.html' %} {% block content %}
 
 <br />
+{% load crispy_forms_tags %}
 <div class="row">
   <div class="col-md">
     <div class="card card-body">
-      <h5>Customers:</h5>
-    </div>
-    <div class="card card-body">
-      <table class="table">
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Phone</th>
-          <th>email</th>
-          <th>Date Joined</th>
-        </tr>
-
-        {% for customer in customers %}
-        <tr>
-          <td>
-            <a class="btn btn-info" href="{% url 'customer' customer.id %}"
-              >View</a
-            >
-          </td>
-          <td>{{customer.name}}</td>
-          <td>{{customer.phone}}</td>
-          <td>{{customer.email}}</td>
-          <td>{{customer.date_created}}</td>
-        </tr>
-
-        {% endfor %}
-      </table>
-
       <div class="row">
-        <div class="col-md-1">
-          <br />
-          <a class="btn btn-warning btn-block" href="{% url 'home' %}">
-            &#8592; Back
-          </a>
+        <div class="col-md-9"><h5>All Customers:</h5></div>
+        <div class="col-md-3">
+          <p>Total customers: <strong>{{all_customers_count}}</strong></p>
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col">
+        <div class="card card-body">
+          <form method="get">
+            <div class="row">
+              <div class="col-md">{{myFilter.form.name|as_crispy_field}}</div>
+              <div class="col-md">{{myFilter.form.phone|as_crispy_field}}</div>
+              <div class="col-md">
+                {{myFilter.form.start_date|as_crispy_field}}
+              </div>
+              <div class="col-md">
+                {{myFilter.form.end_date|as_crispy_field}}
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+<div class="card card-body">
+  <table class="table">
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Phone</th>
+      <th>Date Joined</th>
+    </tr>
+
+    {% for customer in customers %}
+    <tr>
+      <td>
+        <a class="btn btn-info" href="{% url 'customer' customer.id %}">View</a>
+      </td>
+      <td>{{customer.name}}</td>
+      <td>{{customer.phone}}</td>
+      <td>{{customer.date_created}}</td>
+    </tr>
+
+    {% endfor %}
+  </table>
+</div>
+<div class="row">
+  <div class="col-md-4">
+    <br />
+    <a class="btn btn-warning btn-block" href="{% url 'home' %}">
+      &#8592; Back
+    </a>
   </div>
 </div>
 

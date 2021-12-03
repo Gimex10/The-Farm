@@ -1,9 +1,18 @@
+*,
+html {
+  scroll-behavior: smooth;
+}
 #logo {
+  /* background-color: #fff73f; */
 }
 
 body {
   background-color: #ebeff5;
   /*background-color: hsl(39,100%,50%);*/
+}
+#status-wrapper {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #total-orders {

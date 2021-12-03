@@ -1,4 +1,4 @@
-{% extends 'accounts/main.html' %} {% block content %}
+{% extends 'accounts/home.html' %} {% block content %}
 
 <style>
   .make_order {
@@ -13,9 +13,14 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 </style>
-<br />
-<h3>Hero section</h3>
-<hr />
+<div>
+  <div>
+    <br />
+    <h3>Hero section</h3>
+    <hr />
+  </div>
+  <div></div>
+</div>
 <div class="card card-body">
   <p class="make_order">Reserve your order today.</p>
   <p>We specialize in:</p>
@@ -30,44 +35,5 @@
   >
 </div>
 <br />
-
-<div class="row">
-  <div class="col-md">
-    <div class="card card-body">
-      <p class="order_heading">Orders</p>
-      <table class="table table-sm">
-        <tr>
-          <th>
-            Reserve your order and after acknowledgement check for its billing
-            information
-          </th>
-        </tr>
-
-        <tr>
-          <td>{{order.product}}</td>
-        </tr>
-      </table>
-      <a
-        class="btn btn-primary btn-sm btn-block"
-        href="{% url 'all_customer_orders' %}"
-        >View Orders</a
-      >
-    </div>
-  </div>
-  <div class="col-md">
-    <div class="card card-body">
-      <div class="feedback_content">
-        <p>Feedback</p>
-        <p>We welcome your feedback on our products and services</p>
-        <a
-          class="btn btn-primary btn-sm btn-block"
-          id="reserve-btn"
-          href="{% url 'give_feedback' customer.id %}"
-          >Give Feedback</a
-        >
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock content %}

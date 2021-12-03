@@ -1,36 +1,39 @@
 // Get all date input from DOM
 const calenders = document.querySelectorAll('.dateinput')
-const today = Date.now()
+const usernameElement = document.getElementById('id_customer')
+const submitBtn = document.getElementById('cancel-order')
+const dialogBox = document.getElementById('dialog-box')
+const backBtn = document.querySelector('.back-btn')
 
 
-// const dateInputChange = (inputForm) =>{
-// inputForm.addEventlistener('onsubmit', (e) => {
-//     e.preventDefault()
-//     const typedDate = inputForm.value
-//     console.log('Saving Form', inputForm)
-//     console.log('Typed Date', typedDate)
+// Event Listeners
 
-//     if( typedDate )
-//     { 
-//       alert("validation failed false");
-//       returnToPreviousPage();
-//       return false;
-//     }
-  
-//     alert("validations passed");
-//     return true;
-//     // calenders[i].valueAsDate =  Date.now().toDateInputValue()
-//     // console.log(calenders[i].value)
-    
 // })
-    
-//     }
+
+if(usernameElement){
+usernameElement.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+})
+
+}
+
+if(submitBtn){
+    submitBtn.addEventListener('click', (e) => {
+        console.log('Order Cancelled')
+        dialogBox.style.display = 'block'
+    })
+
+    backBtn.addEventListener('click', (e) =>{
+        dialogBox.style.display = 'none'
+
+
+    })
+}
+
 
 // Loop through all and change input type to date
 for(let i=0; i < calenders.length; i ++){
     calenders[i].setAttribute("type", "date")
-    // dateInputChange(calenders[i])
-
-    
+        
 }
 

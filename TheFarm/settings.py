@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django_filters',
     'crispy_forms',
-    'tempus_dominus'
+    'tempus_dominus',
+    'annoying',
 ]
 
 
