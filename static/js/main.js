@@ -1,6 +1,7 @@
 // Get all date input from DOM
 const calenders = document.querySelectorAll('.dateinput')
 const usernameElement = document.getElementById('id_customer')
+const orderElement = document.getElementById('id_order')
 const submitBtn = document.getElementById('cancel-order')
 const dialogBox = document.getElementById('dialog-box')
 const backBtn = document.querySelector('.back-btn')
@@ -12,6 +13,12 @@ const backBtn = document.querySelector('.back-btn')
 
 if(usernameElement){
 usernameElement.addEventListener('mousedown', (e) => {
+    e.preventDefault()
+})
+
+}
+if(orderElement){
+orderElement.addEventListener('mousedown', (e) => {
     e.preventDefault()
 })
 

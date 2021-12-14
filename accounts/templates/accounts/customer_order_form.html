@@ -25,7 +25,9 @@
         <div class="row">
           <div class="col">{{form.order_quantity|as_crispy_field}}</div>
         </div>
-
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
         <hr />
         <div
           class="col-md"

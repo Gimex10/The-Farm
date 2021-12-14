@@ -1,0 +1,29 @@
+{% extends 'accounts/home.html' %} {% load crispy_forms_tags %} {% load static
+%}{% block content %}
+<br />
+<p style="font-weight: bold">Locations details</p>
+<p>
+  Please provide your location details as clearly as possible for delivery
+  purposes.
+</p>
+
+<div class="row">
+  <div class="col-md-7">
+    <div class="card card-body">
+      <form method="POST" action="">
+        {% csrf_token %} {{address_form|crispy}}
+
+        <div class="row">
+          <div class="col-md-5">
+            <button type="submit" class="btn btn-primary btn-flex">
+              <i class="fa fas-database"></i>Update Information
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<br />
+
+{% endblock %}

@@ -18,35 +18,33 @@
 </div>
 <div class="row">
   <div class="col-md">
-    <div class="col-md">
+    <div class="card card-body">
+      <h5>Flock</h5>
+    </div>
+    <div>
       <div class="card card-body">
-        <h5>Flock</h5>
-      </div>
-      <div>
-        <div class="card card-body">
-          <table class="table">
-            <tr>
-              <th>Batch No</th>
-              <th>Breed Type</th>
-              <th>Quantity</th>
-              <th>Date Bought</th>
-              <th>Expired</th>
-              <th>Brooder</th>
-            </tr>
+        <table class="table">
+          <tr>
+            <th>Batch No</th>
+            <th>Breed Type</th>
+            <th>Quantity</th>
+            <th>Date Bought</th>
+            <th>Expired</th>
+            <th>Brooder</th>
+          </tr>
 
-            {% for i in flock %}
-            <tr>
-              <td>{{i.batch_no}}</td>
-              <td>{{i.flock_breedtype}}</td>
-              <td>{{i.flock_quantity}}</td>
-              <td>{{i.date_flock_bought}}</td>
-              <td>{{i.is_closed}}</td>
-              <td>{{i.brooder}}</td>
-            </tr>
+          {% for i in flock %}
+          <tr>
+            <td>{{i.batch_no}}</td>
+            <td>{{i.flock_breedtype}}</td>
+            <td>{{i.flock_quantity}}</td>
+            <td>{{i.date_flock_bought}}</td>
+            <td>{{i.is_closed}}</td>
+            <td>{{i.brooder}}</td>
+          </tr>
 
-            {% endfor %}
-          </table>
-        </div>
+          {% endfor %}
+        </table>
       </div>
     </div>
   </div>

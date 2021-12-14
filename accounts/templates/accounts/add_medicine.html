@@ -58,6 +58,9 @@ form.media }} {% load static %} {% block content %}
             </button>
           </div>
         </div>
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
       </form>
     </div>
   </div>

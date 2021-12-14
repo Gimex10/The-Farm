@@ -1,18 +1,17 @@
 const username = document.getElementById('username').value
 const email = document.getElementById('email').value
-const phoneNumber = document.getElementById('phone_number').value
+const phoneNumber = document.getElementById('phone_number')
+const personalAddress = document.querySelector('.personal-address')
+const streetName = document.querySelector('.street-name')
+const roadName = document.querySelector('.road-name')
+const orderNumber = document.getElementById('order_number').innerHTML
 const totalCost = document.getElementById('total_cost').innerHTML
 const checkoutBtn = document.getElementById('process_payment')
 
 
-checkoutBtn.addEventListener('click', (e) => {
-    console.log(username)
-      e.preventDefault()
+checkoutBtn.addEventListener('click', (event) => {
+    event.preventDefault()
 
-    console.log('Payment made', username)
-    console.log('Email', email)
-    console.log('Phone Number', phoneNumber)
-    console.log('Total Cost', totalCost)
 
     FlutterwaveCheckout({
         public_key: "FLWPUBK_TEST-SANDBOXDEMOKEY-X",
@@ -22,7 +21,7 @@ checkoutBtn.addEventListener('click', (e) => {
         country: "KENYA",
         payment_options: "MPESA",
         redirect_url: // specified redirect URL
-          "/user/",
+          `/success/${orderNumber}/`,
         meta: {
           consumer_id: '',
           consumer_mac: "92a3-912ba-1192a",

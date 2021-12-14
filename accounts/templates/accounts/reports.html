@@ -1,3 +1,244 @@
 {% extends 'accounts/main.html' %} {% block content %}
 <p>This page will be used to view reports</p>
+
+{{all_orders}} {{all_customers}} {{all_feedback}} {{all_medicine}} {{all_feeds}}
+{{all_products}} {{all_flock}} {{all_mortalities}} {{all_feedusages}}
+{{all_income}} {{all_sales}} {{all_expenses}} {{locations}}
+
+
+
+    <canvas id="myChart" width="30" height="18"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'March', 'April', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Chicken Sales',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <canvas id="myChart" width="30" height="18"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'March', 'April', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Income',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <canvas id="myChart" width="30" height="18"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'March', 'April', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Expenses',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <canvas id="myChart" width="30" height="18"></canvas>
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'March', 'April', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Feeds Statistics',
+                    data: [12, 19, 3, 5, 2, 3],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <!-- Chart -->
+    <!-- <div class="chart" style="background-color: yellow">
+        <canvas id="conversionsChart" class="chart-canvas" style="
+            display: block;
+            box-sizing: border-box;
+            height: 300px;
+            width: 886.4px;
+          " width="1108" height="375"></canvas>
+        <div id="chart-tooltip" role="tooltip" class="popover bs-popover-top" style="
+            visibility: hidden;
+            left: 646.41px;
+            top: 63.12px;
+            transform: translateX(-50%) translateY(-100%) translateY(-1rem);
+          ">
+            <div class="popover-arrow translate-middle-x"></div>
+            <div class="popover-content">
+                <div>
+                    <h3 class="popover-header text-center text-nowrap">Oct 12</h3>
+                </div>
+                <div>
+                    <div class="
+                  popover-body
+                  d-flex
+                  align-items-center
+                  text-nowrap
+                  justify-content-center
+                ">
+                        <span class="popover-body-indicator" style="background-color: rgb(44, 123, 229)"></span>
+                        32%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Chart -->
+    <!-- <div class="chart chart-appended" style="background-color: green">
+        <canvas id="trafficChart" class="chart-canvas" data-toggle="legend" data-target="#trafficChartLegend" style="
+            display: block;
+            box-sizing: border-box;
+            height: 240px;
+            width: 886.4px;
+          " width="1108" height="300"></canvas>
+        <div id="chart-tooltip" role="tooltip" class="popover bs-popover-top" style="
+            visibility: hidden;
+            left: 545.886px;
+            top: 153.365px;
+            transform: translateX(-50%) translateY(-100%) translateY(-1rem);
+          ">
+            <div class="popover-arrow translate-middle-x"></div>
+            <div class="popover-content">
+                <div>
+                    <h3 class="popover-header text-center text-nowrap">Direct</h3>
+                </div>
+                <div>
+                    <div class="
+                  popover-body
+                  d-flex
+                  align-items-center
+                  text-nowrap
+                  justify-content-center
+                ">
+                        <span class="popover-body-indicator" style="background-color: rgb(44, 123, 229)"></span>60%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Legend -->
+    <!-- <div id="trafficChartLegend" class="chart-legend" style="background-color: yellow">
+        <div>
+            <span class="chart-legend-item"><span class="chart-legend-indicator"
+                    style="background-color: #2c7be5"></span>Direct</span><span class="chart-legend-item"><span
+                    class="chart-legend-indicator" style="background-color: #a6c5f7"></span>Organic</span><span
+                class="chart-legend-item"><span class="chart-legend-indicator"
+                    style="background-color: #d2ddec"></span>Referral</span>
+        </div>
+    </div> -->
+
+
 {% endblock %}

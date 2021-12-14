@@ -1,7 +1,7 @@
 {% extends 'accounts/main.html' %} {% block content %}
 
 <br />
-
+{% load crispy_forms_tags %}
 <div class="row">
   <div class="col-md">
     <div class="card card-body">
@@ -44,7 +44,30 @@
   <div class="col">
     <div class="card card-body">
       <form method="get">
-        {{myFilter.form}}
+        <h3>Search</h3>
+        <hr />
+        <div class="row">
+          <div class="col-md-2">{{myFilter.form.product|as_crispy_field}}</div>
+          <div class="col-md-2">{{myFilter.form.status|as_crispy_field}}</div>
+          <div class="col-md-2">{{myFilter.form.note|as_crispy_field}}</div>
+          <div class="col-md-2">
+            {{myFilter.form.order_quantity|as_crispy_field}}
+          </div>
+          <div class="col-md-2">{{myFilter.form.is_paid|as_crispy_field}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            {{myFilter.form.start_date|as_crispy_field}}
+          </div>
+          <div class="col-md-3">{{myFilter.form.end_date|as_crispy_field}}</div>
+
+          <div class="col-md-2">
+            {{myFilter.form.is_accepted|as_crispy_field}}
+          </div>
+          <div class="col-md-2">
+            {{myFilter.form.is_delivered|as_crispy_field}}
+          </div>
+        </div>
         <button class="btn btn-primary" type="submit">Search</button>
       </form>
     </div>

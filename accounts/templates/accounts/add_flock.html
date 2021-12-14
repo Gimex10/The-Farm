@@ -5,7 +5,6 @@
 <div class="row">
   <div class="col-md-3">
     <div class="card card-body">
-      <a class="btn btn-warning" href="{% url 'flock' %}"> &#8592; Back</a>
       <hr />
       <h3 style="text-align: center">Add flock</h3>
       <hr />
@@ -17,12 +16,18 @@
         {% csrf_token %} {{ add_flock_form|crispy }}
         <hr />
         <div class="row">
-          <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">
+          <div class="col">
+            <button type="submit" class="btn btn-primary btn-md btn-block">
               <i class="fa fas-database"></i>Submit
             </button>
+            <a class="btn btn-warning btn-block btn-md" href="{% url 'flock' %}">
+              &#8592; Back</a
+            >
           </div>
         </div>
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
       </form>
     </div>
   </div>

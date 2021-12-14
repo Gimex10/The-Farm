@@ -1,7 +1,7 @@
 {% extends 'accounts/main.html' %} {% load static %} {% block content %}
 
 <br />
-<div class="row">
+<div class="row" style="justify-content: center">
   <div class="col-md-6">
     <div class="card card-body">
       <p>Are you sure you want to delete "{{item}}"?</p>
@@ -10,13 +10,15 @@
         {% csrf_token %}
 
         <div class="row">
-          <div class="col-md-2">
-            <a class="btn btn-warning" href="{% url 'customer' item.id %}"
+          <div class="col-md">
+            <a
+              class="btn btn-warning btn-block"
+              href="{% url 'customer' item.id %}"
               >Cancel</a
             >
           </div>
-          <div class="col-md-4">
-            <button type="submit" class="btn btn-danger">
+          <div class="col-md">
+            <button type="submit" class="btn btn-danger btn-block">
               <i class=""></i>Delete
             </button>
           </div>

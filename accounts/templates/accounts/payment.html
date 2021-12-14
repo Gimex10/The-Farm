@@ -23,9 +23,10 @@
   <p class="lead">
     Please configure your delivery location and account information.
   </p>
+  <i id="order_number" style="visibility: hidden">{{id_int}}</i>
 </div>
 
-<div class="row g-5">
+<div class="row g-5" style="position: relative;">
   <div class="col-md-5 col-lg-4 order-md-last" style="margin-top: 30px">
     <h4 class="d-flex justify-content-between align-items-center mb-3">
       <span class="text-primary">Your order</span>
@@ -64,7 +65,7 @@
   </div>
   <div class="col-md-7 col-lg-8">
     <h4 class="mb-3">Billing</h4>
-    <form class="needs-validation" novalidate="">
+    <div class="" >
       <div class="row g-3">
         <div class="col-sm-6">
           <label for="firstName" class="form-label">First name</label>
@@ -136,34 +137,34 @@
         </div>
 
         <div class="col-12">
-          <h3></h3>
+          <h3>Delivery</h3>
           <p>
             Please configure your delivery location. Enter your location details
             as clearly as possible
           </p>
-          <label for="address" class="form-label" style="font-weight: 500">
+          <!-- <label for="address" class="form-label" style="font-weight: 500">
             Delivery Address</label
           >
 
           <input
             type="text"
-            class="form-control"
+            class="form-control personal-address"
             id="address"
             placeholder="Personal Address"
             required
           />
           <div class="invalid-feedback">
             Please enter your shipping address.
-          </div>
+          </div> -->
         </div>
 
-        <div class="col-12">
+        <!-- <div class="col-12">
           <label for="address2" class="form-label"
             >Street Name <span class="text-muted">(Optional)</span></label
           >
           <input
             type="text"
-            class="form-control"
+            class="form-control street-name"
             id="address2"
             placeholder="Street Name"
           />
@@ -172,10 +173,27 @@
           <label for="address2" class="form-label">Road</label>
           <input
             type="text"
-            class="form-control"
-            id="address2"
+            class="form-control road-name"
+            id="address3"
             placeholder="Road Name"
           />
+        </div> -->
+        <div class="col-12">
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="">{{form|crispy}}</div>
+            <div class="row">
+              <div class="col-md">
+              <input class="btn btn-primary" type="submit" value= "Save address details"></input>
+              </div>
+              <div class="col-md">
+                {% for message in messages %}
+                <p>{{message}}</p>
+                {% endfor %}
+              </div>
+              
+            </div>
+          </form>
         </div>
       </div>
 
@@ -201,16 +219,74 @@
       </div>
 
       <hr class="my-4" />
-
-      <button
-        class="w-100 btn btn-primary btn-lg"
-        type="submit"
-        id="process_payment"
-      >
-        <strong>Checkout </strong>
-      </button>
-    </form>
+      <div class="row">
+        <div class="col-md">
+          <button
+            class="w-100 btn btn-primary btn-lg"
+            type="submit"
+            id="process_payment"
+          >
+            <strong>Checkout </strong>
+          </button>
+        </div>
+        <div class="col-md">
+          <a id="cancel-order" class="btn btn-danger btn-lg btn-block">Cancel</a>
+        </div>
+      </div>
+    </div>
   </div>
+  <div
+    class="modal modal-dialog-centered"
+    style="
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    background-image: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.8),
+      rgba(0, 0, 0, 0.8));"
+    tabindex="-1"
+    id="dialog-box">
+    <div
+      class="modal-dialog"
+      style="
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40vw;
+      height: 50vh;
+    "
+    >
+    <div class="modal-content container">
+      <div class="modal-header">
+        <h5 class="modal-title">Are you sure you want to cancel your order?</h5>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer justify-content-around">
+        <button
+          type="button"
+          class="btn btn-primary back-btn"
+          style="min-width: 120px"
+        >
+          Back
+        </button>
+
+        <a
+          href="/cancel_order/{{id_int}}/"
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+        >
+          Cancel Order
+        </a>
+        </div>
+      
+    </div>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}

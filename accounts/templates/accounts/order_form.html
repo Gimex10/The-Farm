@@ -2,25 +2,38 @@
 <br />
 {% load crispy_forms_tags %}
 <div class="row">
-  <div class="col-md-3">
-    <div class="card card-body">
-      <hr />
-      <a class="btn btn-warning" href="/">Back to home</a>
-      <hr />
-      <h3>Customer order</h3>
-      <hr />
-    </div>
-  </div>
-  <div class="col-md-6">
+  <div class="col-md-2"></div>
+  <div class="col-md-9">
     <div class="card card-body">
       <form action="" method="POST">
-        {% csrf_token %} {{form|crispy}}
+        {% csrf_token %}
+        <h4>Order form</h4>
+        {{form.customer|as_crispy_field}}
+        <div class="row">
+          <div class="col-md">{{form.product|as_crispy_field}}</div>
+          <div class="col-md">{{form.status|as_crispy_field}}</div>
+        </div>
+        {{form.note|as_crispy_field}}
+        <div class="row">
+          <div class="col-md">{{form.order_quantity|as_crispy_field}}</div>
+          <div class="col-md">{{form.is_paid|as_crispy_field}}</div>
+          <div class="col-md">{{form.is_accepted|as_crispy_field}}</div>
+          <div class="col-md">{{form.is_delivered|as_crispy_field}}</div>
+        </div>
+
         <hr />
         <div class="row">
-          <div class="col-md-3">
-            <button type="submit" class="btn btn-primary">
+          <div class="col-md">
+            <button type="submit" class="btn btn-primary btn-block">
               <i class="fa fas-database"></i>Submit
             </button>
+          </div>
+          <div class="col-md">
+            <a
+              class="btn btn-danger btn-block"
+              href="{% url 'customer' user.id %}"
+              >Back</a
+            >
           </div>
         </div>
       </form>
