@@ -13,27 +13,33 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 </style>
-<div>
+<div class="col-md-8">
   <div>
     <br />
-    <h3>Hero section</h3>
+    <h3>Welcome to the Kukumilele portal</h3>
     <hr />
   </div>
   <div></div>
 </div>
-<div class="card card-body">
-  <p class="make_order">Reserve your order today.</p>
-  <p>We specialize in:</p>
-  <p>Broiler</p>
-  <p>Layers</p>
+<div class="row">
+  <div class="col-md-8">
+    <div class="card card-body">
+      <p class="make_order">Reserve your order today.</p>
+      <p>We specialize in poultry:</p>
+      <p>Broiler chicken</p>
+      <p>Layers chicken</p>
+      <p>Check for the available products and make an order today</p>
 
-  <a
-    class="btn btn-primary btn-sm btn-block"
-    id="reserve-btn"
-    href="{% url 'create_customer_order' customer.id %}"
-    >Reserve Order</a
-  >
+      <a
+        class="btn btn-primary btn-sm btn-flex"
+        id="reserve-btn"
+        href="{% url 'create_customer_order' customer.id %}"
+        >Reserve Order</a
+      >
+    </div>
+  </div>
 </div>
+
 <br />
 
 {% endblock content %}

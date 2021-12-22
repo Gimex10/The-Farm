@@ -117,3 +117,8 @@ class AddressForm(ModelForm):
     class Meta:
         model = Delivery
         fields = "__all__"
+        labels = {
+            "address": "Physical Address (Home Address or Apartment)",
+            "street": "Street name (The road connecting to your physical address)",
+            "road": "Highway/Major road (Which major road is closest to you)",
+        }

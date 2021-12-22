@@ -22,23 +22,17 @@ import datetime
 import xlwt
 
 # Defines the register userpage view
-# Funtion to close flock
-
 
 @unauthenticated_user
 def registerPage(request):
-
     form = CreateUserForm()
-
     if request.method == "POST":
         form = CreateUserForm(request.POST)
-
         if request.POST["first_name"]:
             if validate_name(request.POST["first_name"]):
                 if request.POST["last_name"]:
                     if validate_name(request.POST["last_name"]):
                         if request.POST["email"]:
-
                             if form.is_valid():
 
                                 user = form.save()
@@ -59,7 +53,7 @@ def registerPage(request):
                                 print("Form not valid")
                                 messages.info(
                                     request,
-                                    "Form is not valid. It did not validate.",
+                                    "Username already exists, try another one",
                                 )
 
                         else:
@@ -442,12 +436,9 @@ def createOrder(request, pk):
     # OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'order_quantity', 'status'), extra=3)
 
     form = OrderForm(initial={"customer": customer})
-    print(customer)
-
     # formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
 
     if request.method == "POST":
-        print("Printing POST:", request.POST)
         form = OrderForm(request.POST)
         # formset = OrderFormSet(request.POST, instance=customer)
         print(request.POST)
@@ -465,11 +456,6 @@ def createOrder(request, pk):
 @allowed_users(allowed_roles=["customer"])
 def createCustomerOrder(request, pk):
     customer = Customer.objects.get(id=pk)
-    # customer_name = customer.name
-    # print(customer_name)
-    # customer = request.user.customer
-
-    # order = customer.order_set.all()
 
     form = OrderCustomerForm(initial={"customer": customer})
 
@@ -485,8 +471,6 @@ def createCustomerOrder(request, pk):
 
         product = Product.objects.get(id=product_id)
 
-        print("print 1", request.POST)
-
         if product.name == "Broiler":
 
             if order_count <= broilers_total:
@@ -495,7 +479,6 @@ def createCustomerOrder(request, pk):
 
                     return redirect(f"/sales/{s.id}/")
             else:
-                print("Insufficient Broilers")
                 messages.info(request, "Insufficient Broilers")
         else:
 
@@ -505,7 +488,6 @@ def createCustomerOrder(request, pk):
 
                     return redirect(f"/sales/{v.id}/")
             else:
-                print("Insufficient Layers")
                 messages.info(request, "Insufficient Layers")
 
     context = {"form": form, "customer": customer}
@@ -795,7 +777,11 @@ def addFeedsUsage(request):
                 return redirect("/brooder_manager/")
 
         else:
-            print("Not possible")
+            v = str(feed_affected.feed_quantity)
+
+            messages.info(
+                request, "Not possible to use feeds more than " + str(feed_affected.feed_quantity)+"kgs",)
+            add_feedusage_form = AddFeedUsageForm(request.POST)
 
     context = {"add_feedusage_form": add_feedusage_form}
 
@@ -846,7 +832,7 @@ def reports(request):
 
     print(all_sales)
     for sale in all_sales:
-        print(sale)
+        print(sale.sale_date)
     # print(all_orders)
     # print(all_feeds)
     # print(all_income)
@@ -996,11 +982,13 @@ def addMedicine(request):
                               expense_amount=b.medicine_price)
                 exp.save()
 
+                return redirect("/health_manager/")
+
             except ValidationError:
                 print("The date cannot be in the past!")
-                return redirect("/add_medicine/")
-
-            return redirect("/health_manager/")
+                messages.info(
+                    request, "Sorry, the date cannot be in the past!")
+                add_medicine_form = AddMedicineForm(request.POST)
 
     context = {"add_medicine_form": add_medicine_form}
 
@@ -1056,12 +1044,12 @@ def addMortality(request):
 
                 add_mortality_form.save()
 
+                return redirect("/health_manager/")
+
         else:
             print("Not possible. Mortality exceeds flock count")
             messages.info(
                 request, "Not possible. Mortality exceeds flock count")
-
-        return redirect("/health_manager/")
 
     context = {"add_mortality_form": add_mortality_form}
 

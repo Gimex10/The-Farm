@@ -47,9 +47,6 @@
         object-fit: cover;
 
       }
-      #services {
-      
-      }
       
 
     </style>
@@ -77,7 +74,7 @@
             >
           </li>
           <li class="navbar__btn">
-            <a href="{% url "login" %}" class="button" id="signup">Login</a>
+            <a href="{% url 'login' %}" class="button" id="signup">Login</a>
           </li>
         </ul>
       </div>
@@ -86,23 +83,22 @@
     
 
     <div class="p-5 mb-4 bg-light rounded-3" >
-      <div class="container-fluid py-5" style="background-color: rgb(187, 75, 75);">
+      <div class="container-fluid py-5">
         <h1 class="display-5 fw-bold" >Welcome to Kuku Milele Farm Website</h1>
         <p class="col-md-8 fs-4">Feel free to find both broilers and layers chicken on our website. We deal with both chicks and fully grown chicken. We are here to offer you affordable chicken at the click of a button. Sign up today ...</p>
       </div>
-      <div class="row align-items-md-stretch">
+      <div class="row align-items-md-stretch" style="height: 40vh;">
         <div class="col-md-6">
           <div class="h-100 p-5 text-white bg-dark" id="hero-small-container-2">
-            <h2>Change the background</h2>
-            <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
-            <button class="btn btn-outline-light" type="button">Example button</button>
+            <h2>Order fully grown chicken from us and we will deliver.</h2>
+        
+          
           </div>
         </div>
         <div class="col-md-6 justify-content-end">
           <div class="h-100 p-5 bg-light " id="hero-small-container-3">
-            <h2>Add borders</h2>
-            <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
-            <button class="btn btn-outline-secondary" type="button">Example button</button>
+            <h2>We also offer layers as well as chicks.</h2>
+            
           </div>
         </div>
       </div>
@@ -113,7 +109,7 @@
     <!-- Hero section -->
     <div class="hero" id="hero-container">
       <div class="hero__container">
-        <h1 class="hero__heading">Make your <span>order</span> now</h1>
+        <h1 class="hero__heading">Make your order now</h1>
         <p class="hero__description">
           We offer a platform for you to buy chicken conviniently and quickly online. Sign up and make your order today. 
         </p>
@@ -152,21 +148,21 @@
           <h2>Reserve an order</h2>
           <p>Offer your feedback to us</p>
           <div class="services__btn">
-            <a href="{% url "login" %}"><button>Get Started</button></a>
+            <a href="{% url 'login' %}"><button>Get Started</button></a>
           </div>
         </div>
         <div class="services__card">
           <h2>Home Deliveries</h2>
           <p>Pin your delivery point</p>
           <div class="services__btn">
-            <a href="{% url "login" %}"><button>Get Started</button></a>
+            <a href="{% url 'login' %}"><button>Get Started</button></a>
           </div>
         </div>
         <div class="services__card">
           <h2>Quality assured</h2>
           <p>Join Us</p>
           <div class="services__btn">
-            <a href="{% url "login" %}"><button>Get Started</button></a>
+            <a href="{% url 'login' %}"><button>Get Started</button></a>
           </div>
         </div>
       </div>

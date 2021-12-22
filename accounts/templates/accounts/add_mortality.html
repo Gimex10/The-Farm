@@ -19,6 +19,9 @@
         <hr />
         {{add_mortality_form|crispy}}
         <hr />
+        {% for message in messages %}
+        <p>{{message}}</p>
+        {% endfor %}
         <div class="row">
           <div class="col-md-3">
             <button type="submit" class="btn btn-primary">
@@ -26,9 +29,6 @@
             </button>
           </div>
         </div>
-        {% for message in messages %}
-        <p>{{message}}</p>
-        {% endfor %}
       </form>
     </div>
   </div>
