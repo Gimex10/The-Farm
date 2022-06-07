@@ -171,3 +171,7 @@ cython_debug/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+/venv
+__pycache__
+db.sqlite3 
