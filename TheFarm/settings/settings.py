@@ -32,6 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "192.168..",
     "127.0.0.1",
+    "https://morning-chamber-13981.herokuapp.com/",
 ]
 
 
