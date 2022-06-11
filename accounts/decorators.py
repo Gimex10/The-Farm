@@ -4,7 +4,6 @@ from django.shortcuts import redirect
 
 def unauthenticated_user(view_func):
     def wrapper_func(request, *args, **kwargs):
-        print('view_func',view_func)
         if request.user.is_authenticated:
             return redirect('home')
         else:
