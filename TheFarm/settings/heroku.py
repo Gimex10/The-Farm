@@ -2,12 +2,12 @@
 Production Settings for Heroku
 """
 
-import os
+import environ
 
 # Import the settings file
 from TheFarm.settings.settings import *
 
-env = os.environ.Env(
+env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
