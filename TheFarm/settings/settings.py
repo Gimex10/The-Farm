@@ -15,7 +15,7 @@ import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -55,6 +55,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -153,7 +154,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static/images")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
 # SMTP Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail"
@@ -161,3 +161,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "decapajo@gmail.com"
 EMAIL_HOST_PASSWORD = "PASSWORD"
+
+# variable to set the use of whitenoise compression
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

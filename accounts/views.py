@@ -23,6 +23,7 @@ import xlwt
 
 # Defines the register userpage view
 
+
 @unauthenticated_user
 def registerPage(request):
     form = CreateUserForm()
@@ -35,14 +36,14 @@ def registerPage(request):
                         if request.POST["email"]:
                             if form.is_valid():
 
-                                user = form.save()
-                                f = user.first_name
-                                l = user.last_name
-                                e = user.email
+                                form.save()
+                                # f = user.first_name
+                                # l = user.last_name
+                                # e = user.email
                                 username = form.cleaned_data.get("username")
-                                first = form.cleaned_data.get("first_name")
-                                last = form.cleaned_data.get("last_name")
-                                email = form.cleaned_data.get("email")
+                                # first = form.cleaned_data.get("first_name")
+                                # last = form.cleaned_data.get("last_name")
+                                # email = form.cleaned_data.get("email")
 
                                 messages.success(
                                     request, "Account was created for " + username
