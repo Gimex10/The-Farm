@@ -257,19 +257,17 @@ LOGGING = {
 }
 
 # HSTP configuration for http and https
-SECURE_HSTS_SECONDS = 300
-
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
-SECURE_HSTS_PRELOAD = True
-
-SECURE_SSL_REDIRECT = True
+SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_BROWSER_XSS_FILTER = False
+SECURE_SSL_REDIRECT = False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_TRUSTED_ORIGINS = ['http://morning-chamber-13981.herokuapp.com/']
 
 # CSRF configuration
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
 # Session configuration
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
 
 # Configuration for Django and Heroku
