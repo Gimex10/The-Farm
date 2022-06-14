@@ -4,6 +4,7 @@ attrs==21.2.0
 autopep8==1.5.7
 backports.entry-points-selectable==1.1.0
 branca==0.4.2
+Brotli==1.0.9
 certifi==2021.10.8
 charset-normalizer==2.0.9
 click==8.0.3
@@ -20,6 +21,7 @@ django-bootstrap-form==3.4
 django-crispy-forms==1.13.0
 django-environ==0.8.1
 django-filter==21.1
+django-heroku==0.3.1
 django-tempus-dominus==5.1.2.16
 dnspython==2.1.0
 email-validator==1.1.3
@@ -59,5 +61,6 @@ urllib3==1.26.7
 user-agents==2.2.0
 virtualenv==20.8.1
 virtualenv-clone==0.5.7
+waitress==2.1.2
 whitenoise==6.2.0
 xlwt==1.3.0

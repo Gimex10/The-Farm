@@ -10,8 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
+import django_heroku
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,26 +26,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-)x2v*^r!2im9!qga+$ml-m2ne2tgmqy#r*-%1m3ob0)bluy$ya"
+SECRET_KEY = ")x2v*^r!2im9!qga+$ml-m2ne2tgmqy#r*-%1m3ob0)bluy$yathiswashowwedidthefirstproject2020"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "https://morning-chamber-13981.herokuapp.com/",
-]
+ALLOWED_HOSTS = ["127.0.0.1", ".herokuapp.com", ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'whitenoise.runserver_nostatic',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    'whitenoise.runserver_nostatic',
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "django_filters",
@@ -106,7 +105,6 @@ DATABASES = {
     }
 }
 
-import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
@@ -147,19 +145,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# The location of static files in our project
+STATIC_URL = "/static/"
 
+# Additional locations where static files may exist
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# Sets the absolute of these collected files
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
-STATIC_URL = '/static/'
-
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
-)
 # STATIC_ROOT = "/var/www/example.com/static/"
+
 
 MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "/static/images")
+
+# variable to set the use of whitenoise compression as the file storage engine
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
@@ -176,5 +177,100 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "decapajo@gmail.com"
 EMAIL_HOST_PASSWORD = "PASSWORD"
 
-# variable to set the use of whitenoise compression
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['all_file'],
+    },
+
+    'loggers': {
+        'django': {
+            'handlers': ['fileDEBUG', 'fileINFO'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django.server': {
+            'handlers': ['django_all'],
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['django_all'],
+            'level': 'INFO',
+        },
+        'django.db.backends': {
+            'handlers': ['django_all'],
+            'level': 'DEBUG',
+        }
+    },
+
+    'handlers': {
+        'fileDEBUG': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': './logs/debug.log',
+            'formatter': 'simpleRe',
+        },
+        'fileINFO': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': './logs/debugINFO.log',
+            'formatter': 'simpleReINFO',
+        },
+        'django_all': {
+            # 'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': './logs/django.log',
+            # 'formatter': 'simpleReINFO',
+        },
+        'django_all': {
+            # 'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': './logs/djangofunc.log',
+            'formatter': 'funct_formatter',
+        },
+        'all_file': {
+            # 'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': './logs/rootlogs.log',
+            'formatter': 'funct_formatter',
+        },
+    },
+
+    'formatters': {
+        'simpleRe': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+        'simpleReINFO': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'funct_formatter': {
+            'format': '[{pathname}:{funcName}:{lineno:d}] {message}',
+            'style': '{',
+        },
+    },
+}
+
+# HSTP configuration for http and https
+SECURE_HSTS_SECONDS = 300
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
+SECURE_SSL_REDIRECT = True
+
+# CSRF configuration
+CSRF_COOKIE_SECURE = True
+
+# Session configuration
+SESSION_COOKIE_SECURE = True
+
+
+# Configuration for Django and Heroku
+django_heroku.settings(locals())
