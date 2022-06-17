@@ -26,10 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ")x2v*^r!2im9!qga+$ml-m2ne2tgmqy#r*-%1m3ob0)bluy$yathiswashowwedidthefirstproject2020"
+# SECRET_KEY = ")x2v*^r!2im9!qga+$ml-m2ne2tgmqy#r*-%1m3ob0)bluy$yathiswashowwedidthefirstproject2020"
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'm9!qga+$ml)x2v*^r!2i-mThebearingbesoright@1$8obt2_+&k3q+pmu)598sj6yjpkag')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+
 
 ALLOWED_HOSTS = ["127.0.0.1", ".herokuapp.com", ]
 
@@ -105,6 +110,8 @@ DATABASES = {
     }
 }
 
+
+# Heroku: Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
@@ -145,15 +152,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-# The location of static files in our project
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATIC_ROOT = "/var/www/example.com/static/"
+
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = "/static/"
 
 # Additional locations where static files may exist
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-# Sets the absolute of these collected files
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-# STATIC_ROOT = "/var/www/example.com/static/"
 
 
 MEDIA_URL = '/images/'
@@ -256,18 +263,37 @@ LOGGING = {
     },
 }
 
+# Setting default protocol
+# ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
 # HSTP configuration for http and https
-SECURE_CONTENT_TYPE_NOSNIFF = False
-SECURE_BROWSER_XSS_FILTER = False
-SECURE_SSL_REDIRECT = False
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_TRUSTED_ORIGINS = ['http://morning-chamber-13981.herokuapp.com/']
+# SECURE_HSTS_SECONDS = None
+
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+
+# SECURE_HSTS_PRELOAD = False
+
+# SECURE_CONTENT_TYPE_NOSNIFF = False
+# SECURE_BROWSER_XSS_FILTER = False
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_PROXY_SSL_HEADER = None
+
+# CSRF_TRUSTED_ORIGINS = ['https://morning-chamber-13981.herokuapp.com/']
+
+# SSL redirect to https configuration
+# SECURE_SSL_REDIRECT = False
 
 # CSRF configuration
-CSRF_COOKIE_SECURE = False
+# CSRF_COOKIE_SECURE = False
 
 # Session configuration
-SESSION_COOKIE_SECURE = False
+# SESSION_COOKIE_SECURE = False
+
+# CORS_REPLACE_HTTPS_REFERER = False
+
+# HOST_SCHEME = "http://"
+
+# SECURE_FRAME_DENY = False
 
 
 # Configuration for Django and Heroku
