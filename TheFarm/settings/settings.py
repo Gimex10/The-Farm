@@ -10,11 +10,29 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import dj_database_url
+
 from pathlib import Path
 import os
+import dj_database_url
 import django_heroku
+import environ
 
+
+from .logging_helpers import *
+
+# from . import get_env_value
+
+root = environ.Path(__file__) - 3  # get root of the project
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()  # reading .env file
+
+
+SITE_ROOT = root()
+
+
+# CACHES = {'default': env.cache('REDIS_CACHE_URL')}
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -29,14 +47,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # SECRET_KEY = ")x2v*^r!2im9!qga+$ml-m2ne2tgmqy#r*-%1m3ob0)bluy$yathiswashowwedidthefirstproject2020"
 SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', 'm9!qga+$ml)x2v*^r!2i-mThebearingbesoright@1$8obt2_+&k3q+pmu)598sj6yjpkag')
-
+# SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = env.str('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 # DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+# DEBUG = env.bool('DEBUG', default=False)
+TEMPLATE_DEBUG = DEBUG
 
 
-ALLOWED_HOSTS = ["127.0.0.1", ".herokuapp.com", ]
+ALLOWED_HOSTS = [".herokuapp.com", "127.0.0.1", ]
 
 
 # Application definition
@@ -69,6 +91,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
 ROOT_URLCONF = "TheFarm.urls"
@@ -99,8 +122,8 @@ DATABASES = {
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'FARMLAND',
-    #     'USER': 'postgres',
-    #     'PASSWORD': 'Hoonigan22',
+    #     'USER': '*****',
+    #     'PASSWORD': '******',
     #     'HOST': 'localhost',
     #     'PORT': '5432',
     # }
@@ -109,7 +132,18 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ['DATABASE_NAME'],
+#         'HOST': os.environ['DATABASE_HOST'],
+#         'PORT': int(os.environ['DATABASE_PORT']),
+#     }
+# }
 
+# DATABASES = {
+#     'default': env.db('DATABASE_URL')
+#     }
 
 # Heroku: Update database configuration from $DATABASE_URL.
 db_from_env = dj_database_url.config(conn_max_age=500)
@@ -169,6 +203,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "/static/images")
 # variable to set the use of whitenoise compression as the file storage engine
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# Configuration in relation to the environment variable
+
+# public_root = root.path('public/')
+# MEDIA_ROOT = public_root('media')
+# MEDIA_URL = env.str('MEDIA_URL', default='media/')
+# STATIC_ROOT = public_root('static')
+# STATIC_URL = env.str('STATIC_URL', default='static/')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -176,89 +218,195 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# SMTP Configuration
+# Email SMTP Configuration
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "decapajo@gmail.com"
+EMAIL_HOST_USER = "royalttynation@gmail.com"
 EMAIL_HOST_PASSWORD = "PASSWORD"
+# EMAIL_USE_SSL = False
 
+ADMINS = [('DJ1', 'royalttynation@gmail.com'), ]
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+
+#     'root': {
+#         'level': 'WARNING',
+#         'handlers': ['all_file'],
+#     },
+
+#     'loggers': {
+#         'django': {
+#             'handlers': ['fileDEBUG', 'fileINFO'],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         },
+#         'django.server': {
+#             'handlers': ['django_all'],
+#             'level': 'INFO',
+#         },
+#         'django.request': {
+#             'handlers': ['django_all'],
+#             'level': 'INFO',
+#         },
+#         'django.db.backends': {
+#             'handlers': ['django_all'],
+#             'level': 'DEBUG',
+#         }
+#     },
+
+#     'handlers': {
+#         'fileDEBUG': {
+#             'level': 'DEBUG',
+#             'class': 'logging.FileHandler',
+#             'filename': './logs/debug.log',
+#             'formatter': 'simpleRe',
+#         },
+#         'fileINFO': {
+#             'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': './logs/debugINFO.log',
+#             'formatter': 'simpleReINFO',
+#         },
+#         'django_all': {
+#             # 'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': './logs/django.log',
+#             # 'formatter': 'simpleReINFO',
+#         },
+#         'django_all': {
+#             # 'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': './logs/djangofunc.log',
+#             'formatter': 'funct_formatter',
+#         },
+#         'all_file': {
+#             # 'level': 'INFO',
+#             'class': 'logging.FileHandler',
+#             'filename': './logs/rootlogs.log',
+#             'formatter': 'funct_formatter',
+#         },
+#     },
+
+#     'formatters': {
+#         'simpleRe': {
+#             'format': '{levelname} {message}',
+#             'style': '{',
+#         },
+#         'simpleReINFO': {
+#             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+#             'style': '{',
+#         },
+#         'funct_formatter': {
+#             'format': '[{pathname}:{funcName}:{lineno:d}] {message}',
+#             'style': '{',
+#         },
+#     },
+# }
+
+ROLLBAR = {
+    'access_token': 'f823d023f94d4712b7c5f858d33cf7b9',
+    'environment': 'development' if DEBUG else 'production',
+    'branch': 'master',
+    'root': os.getcwd(),
+}
+
+
+CONSOLE_LOGGING_FORMAT = '%(hostname)s %(asctime)s %(levelname)-8s %(threadName)-14s' \
+    '(%(pathname)s:%(lineno)d) %(name)s.%(funcName)s: %(message)s'
+CONFIG_FILE = os.path.dirname(__file__)
+CONSOLE_LOGGING_FILE_LOCATION = os.path.join(CONFIG_FILE.split(
+    f'config(os.sep)settings')[0], 'django-wrds.log')
+# FORMAT = '%(hostname)s %(asctime)s %(levelname)-8s' \
+#     '%(threadName)-14s (%(pathname)s:%(lineno)d) ' \
+#     '%(name)s.%(funcName)s: %(message)s'
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['all_file'],
-    },
-
     'loggers': {
+        # Root logger
+        '': {
+            'level': os.getenv('ROOT_LOG_LEVEL', 'INFO'),
+            'handlers': ['file', 'rollbar'],
+        },
         'django': {
-            'handlers': ['fileDEBUG', 'fileINFO'],
-            'propagate': True,
-            'level': 'DEBUG',
+            # The 'django' logger is configured by Django out of the box. Here, it is reconfigured in order to
+            # utilize the file logger and allow configuration at runtime
+            'handlers': ['mail_admins', 'file', 'rollbar'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
         },
         'django.server': {
-            'handlers': ['django_all'],
-            'level': 'INFO',
+            'propagate': True,
         },
-        'django.request': {
-            'handlers': ['django_all'],
-            'level': 'INFO',
+        'django.http': {
+            'propagate': False,
+            'level': 'DEBUG',
+            'handlers': ['file', 'rollbar'],
         },
         'django.db.backends': {
-            'handlers': ['django_all'],
             'level': 'DEBUG',
+            'handlers': ['file'],
+        },
+        'django.security.DisallowedHost': {
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            # 'propagate': True,
+        },
+    },
+    'formatters': {
+        'my_formatter': {
+            'format': CONSOLE_LOGGING_FORMAT,
+            'style': '%',
+            'class': 'TheFarm.settings.logging_helpers.HostnameAddingFormatter'
         }
     },
-
     'handlers': {
-        'fileDEBUG': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': './logs/debug.log',
-            'formatter': 'simpleRe',
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false', 'ígnore_something'],
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
         },
-        'fileINFO': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': './logs/debugINFO.log',
-            'formatter': 'simpleReINFO',
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'my_formatter',
         },
-        'django_all': {
-            # 'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': './logs/django.log',
-            # 'formatter': 'simpleReINFO',
+        'rollbar': {
+            'level': 'WARNING',
+            'filters': ['require_debug_false'],
+            'access_token': 'f823d023f94d4712b7c5f858d33cf7b9',
+            'environment': 'production',
+            'class': 'rollbar.logger.RollbarHandler'
         },
-        'django_all': {
-            # 'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': './logs/djangofunc.log',
-            'formatter': 'funct_formatter',
-        },
-        'all_file': {
-            # 'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': './logs/rootlogs.log',
-            'formatter': 'funct_formatter',
+        'file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': CONSOLE_LOGGING_FILE_LOCATION,
+            'mode': 'a',
+            'encoding': 'utf-8',
+            'formatter': 'my_formatter',
+            'backupCount': 5,
+            'maxBytes': 10485760,
         },
     },
-
-    'formatters': {
-        'simpleRe': {
-            'format': '{levelname} {message}',
-            'style': '{',
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
         },
-        'simpleReINFO': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
         },
-        'funct_formatter': {
-            'format': '[{pathname}:{funcName}:{lineno:d}] {message}',
-            'style': '{',
+        'ignore_something': {
+            '()': 'mysite.logging_helpers.SomethingFilter',
         },
     },
 }
@@ -298,3 +446,15 @@ LOGGING = {
 
 # Configuration for Django and Heroku
 django_heroku.settings(locals())
+
+ADMINS = [('JT', 'royalttynation@gmail.com')]
+
+# # Specify the default test runner.
+# TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
+# # Import the local settings for the current machine
+# try:
+#     from djangocon.local_settings import *
+# except Exception, e:
+# 	pass
+#     # logging.debug("local_settings not found or contains errors(%s). Skipping local_settings.. " % e)
