@@ -9,6 +9,7 @@
     - [Django Web Framework](#django)
 - [Other Technologies](#other-technologies-used)
     - [Flutterwave](#flutterwave)
+    - [Heroku](#heroku)
     
   
 
@@ -43,6 +44,7 @@
 ### Other Technologies used
 
 - [Flutterwave](https://developer.flutterwave.com/docs/) -  Provides a payment infrastructure for global merchants and payment. It is used to handle payments within the application.
+- [Heroku](https://www.heroku.com) - The cloud platform as a service used for deploying the application
 
 
 ## Setup Database
